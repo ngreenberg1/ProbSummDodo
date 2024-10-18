@@ -71,7 +71,7 @@ def main():
     parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
 
-    args = parser.parser_args()
+    args = parser.parse_args()
 
     data = load_json_input(args.input)
     print("Loaded data:", data)
