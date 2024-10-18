@@ -1,0 +1,34 @@
+prompt 1: You are a physician.  Please list as a semicolon separated list the most 
+          important problems/diagnoses based on the progress note text below.  Only list
+          the problems/diagnoses and nothing else.  Be concise. 
+
+prompt 2: Think about the problem more, can you refine this list to the most important
+          problems/diagnoses? 
+
+
+Flow: 
+
+Initial prompt: Could refine this more, but for now using the ProbSumm prompt that was 
+                found to lead to best results in other tests.
+
+Self-Reflect and refine: Think about the problem more, and refine the list of diagnoses.  
+
+
+Different from the coding problem because we don't have test cases. 
+
+
+Qodo:
+
+Initial prompt, self-reflection, test sutie, test-based iteration, refine and repeat.
+
+This iterative process allows the LLM to learn from its mistakes and gradually converge 
+on a correct solution.  It empowers the LLM to be more flexible and adaptable in its 
+code generation. 
+
+Dodo: 
+
+Start with: initial prompt, self-reflect and refine.  
+
+Not all of the steps relevant to solving coding challenges are relevant to the probsumm 
+task.  BUT, understand how this process helped improve solutions to coding problems, and 
+think about how we can similarly improve outputs of LLMs for diagnosis problem.  
