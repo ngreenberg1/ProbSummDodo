@@ -64,7 +64,7 @@ def main():
     parser = argparse.ArgumentParser()
     
     #add arguments for hyperparameters as neccessary 
-    parser.add_argument('--input', '-i' help="input file in json format", required=True)
+    parser.add_argument('--input', '-i', help="input file in json format", required=True)
     parser.add_argument('--model', '-m', help="model directory for inference", required=True)
     #recommended default temperature varies from model to model-- may need adjusting
     parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
