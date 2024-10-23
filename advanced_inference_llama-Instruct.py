@@ -45,8 +45,14 @@ def main():
 
     args = parser.parse_args()
 
-    data = load_json_input(args.input)
-    print("Loaded data:", data)
+    with open(args.input, 'r') as file:
+        data = json.load(file)
+
+    for entry in data: 
+        entry['instruction'] = entry['instruction'].replace('\n', ' ')
+        entry['input'] = entry['input'].replace('\n', ' ')
+
+    print("Loaded data:", data[0-10])
 
     first_entry = data[0]
     system = first_entry['instruction']
