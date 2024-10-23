@@ -6,7 +6,8 @@ import re
 
 
 
-
+#TODO 
+#update this method to load and clean, combine with clean_text method
 def load_json_input(file_path):
     """
     Load and validate the JSON input file.
@@ -30,6 +31,16 @@ def load_json_input(file_path):
     except FileNotFoundError:
         raise ValueError(f"File not found: {file_path}")
 
+"""
+Function to clean text by removing excessive spaces and newlines
+Could be combined in the future with the load json function
+"""
+def clean_text(text):
+    # replace newlines with spaces
+    text = text.replace('\n', ' ')
+    # replace multiple spaces with a single space 
+    text = re.sub(' +', ' ', text)
+    return text.strip()
 
 def main():
     parser = argparse.ArgumentParser()
@@ -46,19 +57,9 @@ def main():
 
     args = parser.parse_args()
 
-    with open(args.input, 'r') as file:
-        data = json.load(file)
+    data = load_json_input(args.input)
 
-    """
-    Function to clean text by removing excessive spaces and newlines
-    """
-    def clean_text(text):
-        # replace newlines with spaces
-        text = text.replace('\n', ' ')
-        # replace multiple spaces with a single space 
-        text = re.sub(' +', ' ', text)
-        return text.strip()
-        
+    ##Add to load data method? 
     for entry in data: 
         entry['instruction'] = clean_text(entry['instruction'])
         entry['input'] = clean_text(entry['input'])
