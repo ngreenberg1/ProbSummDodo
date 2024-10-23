@@ -2,6 +2,7 @@ from transformers import pipeline
 import torch
 import json
 import argparse
+import re
 
 
 
@@ -48,9 +49,19 @@ def main():
     with open(args.input, 'r') as file:
         data = json.load(file)
 
+    """
+    Function to clean text by removing excessive spaces and newlines
+    """
+    def clean_text(text):
+        # replace newlines with spaces
+        text = text.replace('\n', ' ')
+        # replace multiple spaces with a single space 
+        text = re.sub(' +', ' ', text)
+        return text.strip()
+        
     for entry in data: 
-        entry['instruction'] = entry['instruction'].replace('\n', ' ')
-        entry['input'] = entry['input'].replace('\n', ' ')
+        entry['instruction'] = clean_text(entry['instruction'])
+        entry['input'] = clean_text(entry['input'])
 
     print("Loaded data:", data[0-10])
 
