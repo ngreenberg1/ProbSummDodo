@@ -73,7 +73,7 @@ def main():
     parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     """
-    
+
     args = parser.parse_args()
 
     data = load_json_input(args.input)
@@ -88,6 +88,10 @@ Step 2: Model Setup
     * Ensure that the correct version of the model and its tokenizer are loaded 
     * Manage hardware resources to optimize inference speed (GPU or multipe if possible)
 """
+
+
+
+
 
 """
 Step 3: First LLM interaction: Diagnosis Generation

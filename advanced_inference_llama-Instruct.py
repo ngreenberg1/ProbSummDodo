@@ -3,42 +3,7 @@ import torch
 import json
 import argparse
 
-model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
 
-pipe = pipeline(
-    "text-generation", 
-    model=model_id, 
-    model_kwargs={"torch_dtype": torch.bfloat16},
-    device="cuda",
-)
-
-data = load_json_input(args.input)
-#TODO
-#declare variables, system and user, that read the instruction and input columns from the json
-system = 
-user = 
-
-messages = [
-    {"role": "system", "content": system},
-    {"role": "user", "content": user},
-]
-
-terminators = [
-    pipe.tokenizer.eos_token_id,
-    pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
-]
-
-outputs = pipe(
-    messages,
-    max_new_tokens=256,
-    eos_token_id=terminators,
-    do_sample=True,
-    temperature=0.6,
-    top_p=0.9,
-)
-
-assistant_response = outputs[0]["generated_text"][-1]["content"]
-print(assistant_response)
 
 
 def load_json_input(file_path):
@@ -72,7 +37,6 @@ def main():
     parser.add_argument('--input', '-i', help="input file in json format", required=True)
     
     """
-    parser.add_argument('--model', '-m', help="model directory for inference", required=True)
     #recommended default temperature varies from model to model-- may need adjusting
     parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
     parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
@@ -84,5 +48,47 @@ def main():
     data = load_json_input(args.input)
     print("Loaded data:", data)
 
+    first_entry = data[0]
+    system = first_entry['instruction']
+    user = first_entry['input']
+
+    model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
+
+    """
+    pipe = pipeline(
+        "text-generation", 
+        model=model_id, 
+        model_kwargs={"torch_dtype": torch.bfloat16},
+        device="cuda",
+    )
+    """
+
+
+
+    messages = [
+        {"role": "system", "content": system},
+        {"role": "user", "content": user},
+    ]
+     
+    print(messages[0])
+
+    """
+    terminators = [
+        pipe.tokenizer.eos_token_id,
+        pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
+    ]
+
+    outputs = pipe(
+        messages,
+        max_new_tokens=256,
+        eos_token_id=terminators,
+        do_sample=True,
+        temperature=0.6,
+        top_p=0.9,
+    )
+
+    assistant_response = outputs[0]["generated_text"][-1]["content"]
+    print(assistant_response)
+    """
 if __name__ == "__main__":
     main()
