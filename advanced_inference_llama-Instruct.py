@@ -64,7 +64,7 @@ def main():
         entry['instruction'] = clean_text(entry['instruction'])
         entry['input'] = clean_text(entry['input'])
 
-    print("Loaded data:", data[0-10])
+    print("Loaded data:", data[0])
 
     first_entry = data[0]
     system = first_entry['instruction']
