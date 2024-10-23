@@ -70,7 +70,7 @@ def main():
         {"role": "user", "content": user},
     ]
      
-    print(messages[0])
+    print(messages)
 
     """
     terminators = [
