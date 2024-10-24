@@ -153,7 +153,7 @@ def main():
     assistant_response = outputs[0]["generated_text"][-1]["content"]
     print(assistant_response)
 
-    evaluate(first_entry['output'], assistant_response)
+    evaluate([first_entry['output']], [assistant_response])
     
 
 
