@@ -90,10 +90,10 @@ def main():
     
     #add arguments for hyperparameters as neccessary 
     parser.add_argument('--input', '-i', help="input file in json format", required=True)
-    
+    parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
     """
     #recommended default temperature varies from model to model-- may need adjusting
-    parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
+    
     parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     """
@@ -166,8 +166,9 @@ def main():
             max_new_tokens=256,
             eos_token_id=terminators,
             do_sample=True,
-            temperature=1.0,
-            top_p=0.9,
+            temperature=args.temperature,
+            top_p=args.topp,
+            top_k=args.topk,
         )
 
         assistant_response = outputs[0]["generated_text"][-1]["content"]
@@ -176,7 +177,9 @@ def main():
 
     evaluate(all_assistant_responses, all_references)
 
-
+    #TODO
+    #add print to print the inference hyperparameters along with results
+    #possibly add model details as well
 
     #TODO scale up evaluation to evaluate entire output file.
     #wrap the arguments in lists so that they are not interpreted as single strings and compared by character 
