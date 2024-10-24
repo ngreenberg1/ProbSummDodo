@@ -42,6 +42,13 @@ def clean_text(text):
     text = re.sub(' +', ' ', text)
     return text.strip()
 
+'''
+function for evaluating outputs against ground truth
+'''
+def evaluate(file):
+    return null
+
+
 def main():
     parser = argparse.ArgumentParser()
     
@@ -72,15 +79,22 @@ def main():
 
     model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
 
+
     """
+    Inference steps: add initial outputs to file.  then re-prompt.  then add final output.  then evaluate
+    by comparing the initial outputs to ground truth, and the final outputs to ground truth.
+
+    need to figure out how to get all of these (initial output, final output, gold truth) in one place in order
+    to compare.  
+    """
+    
     pipe = pipeline(
         "text-generation", 
         model=model_id, 
         model_kwargs={"torch_dtype": torch.bfloat16},
         device="cuda",
     )
-    """
-
+    
 
 
     messages = [
@@ -90,7 +104,7 @@ def main():
      
     print(messages)
 
-    """
+    
     terminators = [
         pipe.tokenizer.eos_token_id,
         pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
@@ -107,6 +121,8 @@ def main():
 
     assistant_response = outputs[0]["generated_text"][-1]["content"]
     print(assistant_response)
-    """
+    
+
+
 if __name__ == "__main__":
     main()
