@@ -91,12 +91,12 @@ def main():
     #add arguments for hyperparameters as neccessary 
     parser.add_argument('--input', '-i', help="input file in json format", required=True)
     parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
-    """
+  
     #recommended default temperature varies from model to model-- may need adjusting
     
-    parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
+    #parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
-    """
+    
 
     args = parser.parse_args()
 
@@ -168,7 +168,6 @@ def main():
             do_sample=True,
             temperature=args.temperature,
             top_p=args.topp,
-            top_k=args.topk,
         )
 
         assistant_response = outputs[0]["generated_text"][-1]["content"]
