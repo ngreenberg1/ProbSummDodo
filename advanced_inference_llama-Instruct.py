@@ -54,20 +54,17 @@ def load_json_input(file_path):
 '''
 function for evaluating outputs against ground truth
 '''
-def evaluate(data, assistant_response):
+def evaluate(candidates, references):
     import evaluate
     rouge = evaluate.load('rouge')
-    first_entry = data[0]
 
     #TODO how do I get all of the gold truths and compare to all of the summaries? 
-    candidates = first_entry['output']
     print(candidates)
 
-    references = assistant_response
     print(references)
 
-    #results = rouge.compute(predictions=candidates, references=references)
-    #print(results)
+    results = rouge.compute(predictions=candidates, references=references)
+    print(results)
 
 
 def main():
@@ -139,7 +136,7 @@ def main():
     assistant_response = outputs[0]["generated_text"][-1]["content"]
     print(assistant_response)
 
-    evaluate(data, assistant_response)
+    evaluate(first_entry['output'], assistant_response)
     
 
 
