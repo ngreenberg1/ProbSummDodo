@@ -63,6 +63,7 @@ def evaluate(candidates, references):
 
     print(references)
 
+    #debugging
     # Check the type of the lists
     print(f"Type of candidates: {type(candidates)}")
     print(f"Type of references: {type(references)}")
@@ -152,7 +153,10 @@ def main():
 
     assistant_response = outputs[0]["generated_text"][-1]["content"]
     print(assistant_response)
+    #just for curiosities sake
+    print(outputs)
 
+    #wrap the arguments in lists so that they are not interpreted as single strings and compared by character 
     evaluate([first_entry['output']], [assistant_response])
     
 
