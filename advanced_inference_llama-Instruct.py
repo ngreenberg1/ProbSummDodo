@@ -66,8 +66,8 @@ def evaluate(data, assistant_response):
     references = assistant_response
     print(references)
 
-    results = rouge.compute(predictions=candidates, references=references)
-    print(results)
+    #results = rouge.compute(predictions=candidates, references=references)
+    #print(results)
 
 
 def main():
