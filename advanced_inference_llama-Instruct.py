@@ -162,9 +162,9 @@ def main():
             top_p=0.9,
         )
 
-        assistant_response = outputs[entry]["generated_text"][-1]["content"]
+        assistant_response = outputs[0]["generated_text"][-1]["content"]
         print(assistant_response)
-        
+
 
 
     #TODO scale up evaluation to evaluate entire output file.
