@@ -6,6 +6,8 @@ import re
 from evaluate import load 
 import evaluate
 from tqdm import tqdm
+from bert_score import BERTScorer
+
 
 
 """
@@ -58,6 +60,9 @@ function for evaluating outputs against ground truth
 def evaluate(candidates, references):
     import evaluate
     rouge = evaluate.load('rouge')
+    #add more evaluation metrics
+    bleu_metric = evaluate.load('bleu')
+    bertscore_metric = BERTScorer(lang="en",recale_with_baseline=True)
  
     #debugging
     #print(candidates)
@@ -81,8 +86,11 @@ def evaluate(candidates, references):
     #print("First few candidates:", candidates[:3])
     #print("First few references:", references[:3])
 
-    results = rouge.compute(predictions=candidates, references=references)
-    print(results)
+    rouge_results = rouge.compute(predictions=candidates, references=references)
+    bleu_results = bleu_metric.compute(predictions=candidates, references=references)
+    bertScore = bertscore_metric.compute(predictions=candidates, references=references)
+
+    print(rouge_results, bleu_results, bertScore)
 
 
 def main():
@@ -175,6 +183,7 @@ def main():
         all_references.append(entry['output'])
 
     evaluate(all_assistant_responses, all_references)
+
 
     #TODO
     #add print to print the inference hyperparameters along with results
