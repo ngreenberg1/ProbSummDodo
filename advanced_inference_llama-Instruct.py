@@ -121,13 +121,6 @@ def main():
     to compare.  
     """
     
-    pipe = pipeline(
-        "text-generation", 
-        model=model_id, 
-        model_kwargs={"torch_dtype": torch.bfloat16},
-        device="cuda",
-    )
-    
 
     #Maybe this should be combined with load function so that the json file only needs to be
     #looped through once
@@ -135,6 +128,13 @@ def main():
     loop through all inputs, and format as messages, feed to model and record outputs 
     """
     for entry in data:
+        
+        pipe = pipeline(
+        "text-generation", 
+        model=model_id, 
+        model_kwargs={"torch_dtype": torch.bfloat16},
+        device="cuda",
+        )
 
         system = entry['instruction']
         user = entry['input']
@@ -146,30 +146,31 @@ def main():
         
         print(messages)
 
-    """
-    terminators = [
-        pipe.tokenizer.eos_token_id,
-        pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
-    ]
+    
+        terminators = [
+            pipe.tokenizer.eos_token_id,
+            pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
+        ]
 
-    # In the future, make hyperparameters = input args  e.g. temperature=(args.temperature)
-    outputs = pipe(
-        messages,
-        max_new_tokens=256,
-        eos_token_id=terminators,
-        do_sample=True,
-        temperature=1.0,
-        top_p=0.9,
-    )
+        # In the future, make hyperparameters = input args  e.g. temperature=(args.temperature)
+        outputs = pipe(
+            messages,
+            max_new_tokens=256,
+            eos_token_id=terminators,
+            do_sample=True,
+            temperature=1.0,
+            top_p=0.9,
+        )
 
-    assistant_response = outputs[0]["generated_text"][-1]["content"]
-    print(assistant_response)
-    #just for curiosities sake
-    print(outputs)
+        assistant_response = outputs[entry]["generated_text"][-1]["content"]
+        print(assistant_response)
+        
 
+
+    #TODO scale up evaluation to evaluate entire output file.
     #wrap the arguments in lists so that they are not interpreted as single strings and compared by character 
-    evaluate([first_entry['output']], [assistant_response])
-    """
+    #evaluate([first_entry['output']], [assistant_response])
+    
 
 
 if __name__ == "__main__":
