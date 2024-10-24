@@ -7,7 +7,7 @@ import re
 
 
 #TODO 
-#update this method to load and clean, combine with clean_text method
+#update this method to load and clean, combine with clean_text method?
 def load_json_input(file_path):
     """
     Load and validate the JSON input file.
@@ -23,6 +23,13 @@ def load_json_input(file_path):
         for obj in data:
             if not all(key in obj for key in ['instruction', 'input', 'output']):
                 raise ValueError("Each object must contain 'instruction', 'input', and 'output' fields.")
+        
+        ##Add to load data method? 
+        for entry in data: 
+            entry['instruction'] = clean_text(entry['instruction'])
+            entry['input'] = clean_text(entry['input'])
+
+        print("Loaded data:", data[0])
         
         return data
 
@@ -65,13 +72,6 @@ def main():
     args = parser.parse_args()
 
     data = load_json_input(args.input)
-
-    ##Add to load data method? 
-    for entry in data: 
-        entry['instruction'] = clean_text(entry['instruction'])
-        entry['input'] = clean_text(entry['input'])
-
-    print("Loaded data:", data[0])
 
     first_entry = data[0]
     system = first_entry['instruction']
