@@ -174,7 +174,7 @@ def main():
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
 
-        evaluate(all_assistant_responses, all_references)
+    evaluate(all_assistant_responses, all_references)
 
 
 
