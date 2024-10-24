@@ -136,7 +136,11 @@ def main():
         )
     
     #TODO add time to this function so that I can see progress on dataset
-    #move parts of this outside of the loop 
+    #move parts of this outside of the loop if possible 
+
+    all_assistant_responses = []
+    all_references= []
+
     for entry in tqdm(data, desc="Processing entries"):
         
     
@@ -167,7 +171,10 @@ def main():
         )
 
         assistant_response = outputs[0]["generated_text"][-1]["content"]
-        print(assistant_response)
+        all_assistant_responses.append(assistant_response)
+        all_references.append(entry['output'])
+
+        evaluate(all_assistant_responses, all_references)
 
 
 
