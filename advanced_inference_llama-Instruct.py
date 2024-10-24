@@ -5,6 +5,7 @@ import argparse
 import re
 from evaluate import load 
 import evaluate
+from tqdm import tqdm
 
 
 """
@@ -127,15 +128,18 @@ def main():
     """
     loop through all inputs, and format as messages, feed to model and record outputs 
     """
-    for entry in data:
-        
-        pipe = pipeline(
+    pipe = pipeline(
         "text-generation", 
         model=model_id, 
         model_kwargs={"torch_dtype": torch.bfloat16},
         device="cuda",
         )
-
+    
+    #TODO add time to this function so that I can see progress on dataset
+    #move parts of this outside of the loop 
+    for entry in tqdm(data, desc="Processing entries"):
+        
+    
         system = entry['instruction']
         user = entry['input']
 
