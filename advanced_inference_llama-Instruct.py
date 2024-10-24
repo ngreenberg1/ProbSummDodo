@@ -57,14 +57,14 @@ function for evaluating outputs against ground truth
 def evaluate(data, assistant_response):
     import evaluate
     rouge = evaluate.load('rouge')
-    for obj in data: 
+    first_entry = data[0]
 
     #TODO how do I get all of the gold truths and compare to all of the summaries? 
-        candidates = obj['output']
-        print(candidates)
+    candidates = first_entry['output']
+    print(candidates)
 
-        references = assistant_response
-        print(references)
+    references = assistant_response
+    print(references)
 
     results = rouge.compute(predictions=candidates, references=references)
     print(results)
