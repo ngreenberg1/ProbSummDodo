@@ -5,6 +5,17 @@ import argparse
 import re
 
 
+"""
+Function to clean text by removing excessive spaces and newlines
+Could be combined in the future with the load json function?
+"""
+def clean_text(text):
+    # replace newlines with spaces
+    text = text.replace('\n', ' ')
+    # replace multiple spaces with a single space 
+    text = re.sub(' +', ' ', text)
+    return text.strip()
+
 
 #TODO 
 #update this method to load and clean, combine with clean_text method?
@@ -24,10 +35,8 @@ def load_json_input(file_path):
             if not all(key in obj for key in ['instruction', 'input', 'output']):
                 raise ValueError("Each object must contain 'instruction', 'input', and 'output' fields.")
         
-        ##Add to load data method? 
-        for entry in data: 
-            entry['instruction'] = clean_text(entry['instruction'])
-            entry['input'] = clean_text(entry['input'])
+            obj['instruction'] = clean_text(obj['instruction'])
+            obj['input'] = clean_text(obj['input'])
 
         print("Loaded data:", data[0])
         
@@ -38,22 +47,14 @@ def load_json_input(file_path):
     except FileNotFoundError:
         raise ValueError(f"File not found: {file_path}")
 
-"""
-Function to clean text by removing excessive spaces and newlines
-Could be combined in the future with the load json function
-"""
-def clean_text(text):
-    # replace newlines with spaces
-    text = text.replace('\n', ' ')
-    # replace multiple spaces with a single space 
-    text = re.sub(' +', ' ', text)
-    return text.strip()
+
 
 '''
 function for evaluating outputs against ground truth
 '''
 def evaluate(file):
     return null
+
 
 
 def main():
@@ -110,6 +111,7 @@ def main():
         pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
     ]
 
+    # In the future, make hyperparameters = input args  e.g. temperature=(args.temperature)
     outputs = pipe(
         messages,
         max_new_tokens=256,
