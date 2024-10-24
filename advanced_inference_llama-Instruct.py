@@ -102,11 +102,13 @@ def main():
 
     data = load_json_input(args.input)
 
-    # set up initial model prompt
+    """
+    #set up initial model prompt--test on just one sample
     #TODO figure out how to scale this, to get prompts and inputs for all objects in file
     first_entry = data[0]
     system = first_entry['instruction']
     user = first_entry['input']
+    """
 
     model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
 
@@ -127,15 +129,24 @@ def main():
     )
     
 
+    #Maybe this should be combined with load function so that the json file only needs to be
+    #looped through once
+    """
+    loop through all inputs, and format as messages, feed to model and record outputs 
+    """
+    for entry in data:
 
-    messages = [
-        {"role": "system", "content": system},
-        {"role": "user", "content": user},
-    ]
-     
-    print(messages)
+        system = entry['instruction']
+        user = entry['input']
 
-    
+        messages = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ]
+        
+        print(messages)
+
+    """
     terminators = [
         pipe.tokenizer.eos_token_id,
         pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
@@ -158,7 +169,7 @@ def main():
 
     #wrap the arguments in lists so that they are not interpreted as single strings and compared by character 
     evaluate([first_entry['output']], [assistant_response])
-    
+    """
 
 
 if __name__ == "__main__":
