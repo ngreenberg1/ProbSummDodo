@@ -58,29 +58,28 @@ function for evaluating outputs against ground truth
 def evaluate(candidates, references):
     import evaluate
     rouge = evaluate.load('rouge')
-
-    #TODO how do I get all of the gold truths and compare to all of the summaries? 
-    print(candidates)
-
-    print(references)
+ 
+    #debugging
+    #print(candidates)
+    #print(references)
 
     #debugging
     # Check the type of the lists
-    print(f"Type of candidates: {type(candidates)}")
-    print(f"Type of references: {type(references)}")
+    #print(f"Type of candidates: {type(candidates)}")
+    #print(f"Type of references: {type(references)}")
 
     # Check the length of the lists
-    print(f"Number of candidates: {len(candidates)}")
-    print(f"Number of references: {len(references)}")
+    #print(f"Number of candidates: {len(candidates)}")
+    #print(f"Number of references: {len(references)}")
 
     # Check the type of each element in the lists
-    if candidates and references:  # Ensure lists are not empty
-        print(f"Type of first candidate: {type(candidates[0])}")
-        print(f"Type of first reference: {type(references[0])}")
+    #if candidates and references:  # Ensure lists are not empty
+        #print(f"Type of first candidate: {type(candidates[0])}")
+        #print(f"Type of first reference: {type(references[0])}")
 
     # Optionally, print the first few elements to inspect their content
-    print("First few candidates:", candidates[:3])
-    print("First few references:", references[:3])
+    #print("First few candidates:", candidates[:3])
+    #print("First few references:", references[:3])
 
     results = rouge.compute(predictions=candidates, references=references)
     print(results)
@@ -152,7 +151,8 @@ def main():
             {"role": "user", "content": user},
         ]
         
-        print(messages)
+        #debugging
+        #print(messages)
 
     
         terminators = [
