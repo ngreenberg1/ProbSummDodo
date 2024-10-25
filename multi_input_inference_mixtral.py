@@ -6,6 +6,7 @@ import evaluate
 from evaluate import load
 import argparse
 from tqdm import tqdm
+import torch
 
 
 def clean_text(text):
@@ -93,27 +94,40 @@ def main():
     #parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     
     args = parser.parse_args()
-    
+
     data = load_json_input(args.input)
     
 
     model = AutoModelForCausalLM.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1", device_map="auto")
     tokenizer = AutoTokenizer.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1")
 
-    for entry in tqdm(data, desc="Processing entries"):
-        user = f"{entry['instruction']} {entry['input']}"
-        print(user)
+    #list to store all outputs
+    all_assistant_responses = []
+    #list to store all gold truths
+    all_references= []
 
-        """
+    for entry in tqdm(data, desc="Processing entries"):
+        
+        user = f"{entry['instruction']} {entry['input']}"
+
         messages = [
-            {"role": "user", "content": "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise. H/O HYPERKALEMIA (HIGH POTASSIUM, HYPERPOTASSEMIA). H/O HYPERGLYCEMIA CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD, BRONCHITIS, EMPHYSEMA) WITH ACUTE EXACERBATION. A 59 year-old man presents with malaise and hypoxia."},
+            {"role": "user", "content": user}
         ]
 
         model_inputs  = tokenizer.apply_chat_template(messages, return_tensors="pt").to("cuda")
 
         generated_ids = model.generate(model_inputs, max_new_tokens=100, do_sample=True)
         print(tokenizer.batch_decode(generated_ids)[0])
-        """
+
+        #add output to all assistant responses list
+        assistant_response = tokenizer.batch_decode(generated_ids)[0]
+        all_assistant_responses.append(assistant_response)
+
+        #add gold truth to all references list
+        reference = entry['output']
+        all_references.append(reference)
+        
+    evaluate(all_assistant_responses, all_references)
 
 if __name__ == "__main__":
     main()
