@@ -98,7 +98,7 @@ def main():
     data = load_json_input(args.input)
     
 
-    model = AutoModelForCausalLM.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1", device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1", torch_dtype=torch.float16, attn_implementation="flash_attention_2", device_map="auto")
     tokenizer = AutoTokenizer.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1")
 
     #list to store all outputs
