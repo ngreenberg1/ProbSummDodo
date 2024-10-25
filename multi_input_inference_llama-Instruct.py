@@ -3,8 +3,8 @@ import torch
 import json
 import argparse
 import re
-from evaluate import load 
 import evaluate
+from evaluate import load 
 from tqdm import tqdm
 
 
@@ -82,11 +82,7 @@ def evaluate(candidates, references):
     #print("First few references:", references[:3])
 
     results = rouge.compute(predictions=candidates, references=references)
-    for rouge_type, scores in results.items():
-        print(f"{rouge_type}:")
-        print(f"  Precision: {scores['precision']:.4f}")
-        print(f"  Recall: {scores['recall']:.4f}")
-        print(f"  F1-score: {scores['f1']:.4f}")
+    print(results)
 
 
 def main():
