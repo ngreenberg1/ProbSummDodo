@@ -87,10 +87,10 @@ def main():
     
     #add arguments for hyperparameters as neccessary 
     parser.add_argument('--input', '-i', help="input file in json format", required=True)
-    parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
+    #parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
     #condider getting rid of topk arg
     #parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
-    parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
+    #parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     
     data = json.load_json_input(args.input)
     args = parser.parse_args()
@@ -99,7 +99,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1")
 
     for entry in tqdm(data, desc="Processing entries"):
-        user = user = f"{entry['instruction']} {entry['input']}"
+        user = f"{entry['instruction']} {entry['input']}"
         print(user)
 
         """
