@@ -58,28 +58,6 @@ function for evaluating outputs against ground truth
 def evaluate(candidates, references):
     import evaluate
     rouge = evaluate.load('rouge')
- 
-    #debugging
-    #print(candidates)
-    #print(references)
-
-    #debugging
-    # Check the type of the lists
-    #print(f"Type of candidates: {type(candidates)}")
-    #print(f"Type of references: {type(references)}")
-
-    # Check the length of the lists
-    #print(f"Number of candidates: {len(candidates)}")
-    #print(f"Number of references: {len(references)}")
-
-    # Check the type of each element in the lists
-    #if candidates and references:  # Ensure lists are not empty
-        #print(f"Type of first candidate: {type(candidates[0])}")
-        #print(f"Type of first reference: {type(references[0])}")
-
-    # Optionally, print the first few elements to inspect their content
-    #print("First few candidates:", candidates[:3])
-    #print("First few references:", references[:3])
 
     results = rouge.compute(predictions=candidates, references=references)
     print(results)
@@ -115,7 +93,7 @@ def main():
     """
     
 
-  
+#TODO move all of this outside of main to seperate functions like initialize model
     pipe = pipeline(
         "text-generation", 
         model=model_id, 
@@ -123,6 +101,13 @@ def main():
         device="cuda",
         )
     
+    terminators = [
+        pipe.tokenizer.eos_token_id,
+        pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
+    ]
+    
+    #TODO add time to this function so that I can see progress on dataset
+    #move parts of this outside of the loop if possible 
     #Maybe this should be combined with load function so that the json file only needs to be
     #looped through once
     """
@@ -133,7 +118,8 @@ def main():
 
     for entry in tqdm(data, desc="Processing entries"):
         
-    
+    #TODO modularize the code by seperating the logic into distinct functions.
+    #seperate functions for generating initial responses, generating final responses, and evaluating results.
         system = entry['instruction']
         user = entry['input']
 
@@ -146,13 +132,10 @@ def main():
         #print(messages)
 
     
-        terminators = [
-            pipe.tokenizer.eos_token_id,
-            pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
-        ]
+       
 
         # In the future, make hyperparameters = input args  e.g. temperature=(args.temperature)
-        outputs = pipe(
+        initial_output = pipe(
             messages,
             max_new_tokens=256,
             eos_token_id=terminators,
@@ -161,9 +144,29 @@ def main():
             top_p=args.topp,
         )
 
-        assistant_response = outputs[0]["generated_text"][-1]["content"]
+        initial_output = initial_output[0]["generated_text"][-1]["content"]
+
+        messages = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+            {"role": "assistant", "content": initial_output},
+            {"role": "user", "content": "Think about the problem more, can you refine this list to the most important problems/diagnoses?"}
+        ]
+
+        final_outputs = pipe(
+            messages,
+            max_new_tokens=256,
+            eos_token_id=terminators,
+            do_sample=True,
+            temperature=args.temperature,
+            top_p=args.topp,
+        )
+
+        assistant_response = final_outputs[0]["generated_text"][-1]["content"]
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
+
+        print(initial_output, assistant_response)
 
     evaluate(all_assistant_responses, all_references)
 
