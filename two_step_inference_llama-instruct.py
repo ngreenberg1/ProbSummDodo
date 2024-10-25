@@ -64,14 +64,16 @@ def evaluate(candidates, references):
 
 
 def main():
+
+
     parser = argparse.ArgumentParser()
     
     #add arguments for hyperparameters as neccessary 
     parser.add_argument('--input', '-i', help="input file in json format", required=True)
+    #TODO 
+    #add arguments for first prompt parameters and second prompt parameters
     parser.add_argument('--temperature', type=float, default=0.4, help="Sampling temperature")
-  
     #recommended default temperature varies from model to model-- may need adjusting
-    
     #parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     
@@ -93,7 +95,7 @@ def main():
     """
     
 
-#TODO move all of this outside of main to seperate functions like initialize model
+    #TODO move all of this outside of main to seperate functions like initialize model
     pipe = pipeline(
         "text-generation", 
         model=model_id, 
@@ -115,6 +117,8 @@ def main():
     """
     all_assistant_responses = []
     all_references= []
+
+    entry_counter = 0
 
     for entry in tqdm(data, desc="Processing entries"):
         
@@ -162,7 +166,14 @@ def main():
             top_p=args.topp,
         )
 
+
         assistant_response = final_outputs[0]["generated_text"][-1]["content"]
+
+        #debugging
+        if entry_counter == 0:
+            print("Final Output for First Entry:")
+            print(assistant_response)
+            
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
 
