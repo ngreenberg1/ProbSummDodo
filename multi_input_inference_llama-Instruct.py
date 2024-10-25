@@ -165,6 +165,8 @@ def main():
         assistant_response = outputs[0]["generated_text"][-1]["content"]
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
+        #debugging
+        print(all_assistant_responses)
 
     evaluate(all_assistant_responses, all_references)
 
