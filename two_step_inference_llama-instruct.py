@@ -180,8 +180,6 @@ def main():
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
 
-        print(initial_output, assistant_response)
-
     evaluate(all_assistant_responses, all_references)
 
     #TODO
