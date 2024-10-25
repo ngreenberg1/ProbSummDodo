@@ -172,8 +172,11 @@ def main():
         #debugging
         if entry_counter == 0:
             print("Final Output for First Entry:")
+            print(initial_output)
             print(assistant_response)
-            
+
+        entry_counter += 1
+
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
 
