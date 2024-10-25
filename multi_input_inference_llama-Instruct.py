@@ -134,7 +134,8 @@ def main():
     for entry in tqdm(data, desc="Processing entries"):
         
     
-        system = entry['instruction']
+        #system = entry['instruction']
+        system = "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else."
         user = entry['input']
 
         messages = [
