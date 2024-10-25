@@ -122,11 +122,7 @@ def main():
     """
     
 
-    #Maybe this should be combined with load function so that the json file only needs to be
-    #looped through once
-    """
-    loop through all inputs, and format as messages, feed to model and record outputs 
-    """
+  
     pipe = pipeline(
         "text-generation", 
         model=model_id, 
@@ -136,7 +132,11 @@ def main():
     
     #TODO add time to this function so that I can see progress on dataset
     #move parts of this outside of the loop if possible 
-
+    #Maybe this should be combined with load function so that the json file only needs to be
+    #looped through once
+    """
+    loop through all inputs, and format as messages, feed to model, record outputs and references for evaluation 
+    """
     all_assistant_responses = []
     all_references= []
 
