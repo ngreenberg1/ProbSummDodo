@@ -92,8 +92,10 @@ def main():
     #parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     #parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     
-    data = load_json_input(args.input)
     args = parser.parse_args()
+    
+    data = load_json_input(args.input)
+    
 
     model = AutoModelForCausalLM.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1", device_map="auto")
     tokenizer = AutoTokenizer.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1")
