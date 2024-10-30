@@ -96,22 +96,28 @@ test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
 
 #debugging
 print(train_data[:5])
+
 """
 Create custom dataset in chat format
 """
-rows = []
-for item in train_data:
-    rows.append(
-        {
-            "instruction": item["instruction"],
-            "input": item["input"],
-            "output": item["output"],
-        }
-    )
-df = pd.DataFrame(rows)
+def create_dataframe(data):
+    rows = []
+    for item in train_data:
+        rows.append(
+            {
+                "instruction": item["instruction"],
+                "input": item["input"],
+                "output": item["output"],
+            }
+        )
+    df = pd.DataFrame(rows)
 
 #debugging
-print(df.head())
+    
+train_df = create_dataframe(train_data)
+test_df = create_dataframe(test_data)
+print(train_df.head())
+print(test_df.head)
 
 
 
