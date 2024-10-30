@@ -111,6 +111,7 @@ def create_dataframe(data):
             }
         )
     df = pd.DataFrame(rows)
+    return df
 
 #debugging
     
