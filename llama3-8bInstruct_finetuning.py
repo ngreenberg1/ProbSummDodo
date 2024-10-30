@@ -93,6 +93,8 @@ def load_json_input(file_path):
 train_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_train.json")
 test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
 
+#debugging
+print(train_data[:5])
 """
 Create custom dataset in chat format
 """
