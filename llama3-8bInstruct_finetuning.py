@@ -101,10 +101,9 @@ print(data)
 print(data["train"][:5])
 
 
-    
-#data = load_json_input(args.input)
 
-#for entry in data:
+"""
+for entry in data:
         
 #TODO modularize the code by seperating the logic into distinct functions.
 #seperate functions for generating initial responses, generating final responses, and evaluating results.
@@ -120,4 +119,4 @@ print(data["train"][:5])
     print(tokenizer.decode(tokenized_chat[0]))
     #debugging
     #print(messages)
-
+"""
