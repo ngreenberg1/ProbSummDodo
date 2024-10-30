@@ -102,7 +102,7 @@ Create custom dataset in chat format
 """
 def create_dataframe(data):
     rows = []
-    for item in train_data:
+    for item in data:
         rows.append(
             {
                 "instruction": item["instruction"],
