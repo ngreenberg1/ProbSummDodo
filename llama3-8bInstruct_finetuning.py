@@ -79,7 +79,8 @@ def load_json_input(file_path):
         
             obj['instruction'] = clean_text(obj['instruction'])
             obj['input'] = clean_text(obj['input'])
-
+            obj['output'] = clean_text(obj['output'])
+ 
         print("Loaded data:", data[0])
         
         return data
