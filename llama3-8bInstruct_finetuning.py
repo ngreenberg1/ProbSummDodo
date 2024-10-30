@@ -97,7 +97,7 @@ Create custom dataset in chat format
 """
 
 data_files = {"train": train_data, "test": test_data}
-dataset = load_dataset("home1/ngreenberg/DR.Bench", data_files=data_files)
+dataset = load_dataset("json", data_files=data_files)
 print(dataset)
 print(dataset["train"][:5])
 
