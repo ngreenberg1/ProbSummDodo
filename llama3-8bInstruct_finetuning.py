@@ -43,6 +43,13 @@ model = AutoModelForCausalLM.from_pretrained(
 model.resize_token_embeddings(len(tokenizer), pad_to_multiple_of=8)
 
 print(model.config)
+print(tokenizer.bos_token, tokenizer.bos_token_id)
+print(tokenizer.eos_token, tokenizer.eos_token_id)
+print(tokenizer.pad_token, tokenizer.pad_token_id)
+tokenizer.convert_tokens_to_ids(PAD_TOKEN)
+
+data = load_dataset("json", data_files={"train" : "/home1/ngreenberg/DR.Bench/summ_train.json", "test" : "/home1/ngreenberg/DR.Bench/summ_dev.json"})
+print(data)
 
 def clean_text(text):
     # replace newlines with spaces
