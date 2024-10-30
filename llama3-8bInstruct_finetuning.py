@@ -120,7 +120,9 @@ test_df = create_dataframe(test_data)
 print(train_df.head())
 print(test_df.head())
 
-
+#check for null values 
+print(train_df.isnull().value_counts())
+print(test_df.isnull().value_counts())
 
 """
 for entry in data:
