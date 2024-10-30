@@ -96,9 +96,10 @@ test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
 Create custom dataset in chat format
 """
 
-data = load_dataset(train_data, test_data)
-print(data)
-print(data["train"][:5])
+data_files = {"train": train_data, "test": test_data}
+dataset = load_dataset("home1/ngreenberg/DR.Bench", data_files=data_files)
+print(dataset)
+print(dataset["train"][:5])
 
 
 
