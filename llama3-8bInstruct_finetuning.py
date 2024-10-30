@@ -118,7 +118,7 @@ def create_dataframe(data):
 train_df = create_dataframe(train_data)
 test_df = create_dataframe(test_data)
 print(train_df.head())
-print(test_df.head)
+print(test_df.head())
 
 
 
