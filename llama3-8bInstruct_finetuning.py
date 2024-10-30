@@ -42,7 +42,7 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 model.resize_token_embeddings(len(tokenizer), pad_to_multiple_of=8)
 
-model.config
+print(model.config)
 
 def clean_text(text):
     # replace newlines with spaces
