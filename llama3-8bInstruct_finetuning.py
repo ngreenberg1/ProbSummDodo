@@ -50,6 +50,7 @@ tokenizer.convert_tokens_to_ids(PAD_TOKEN)
 
 data = load_dataset("json", data_files={"train" : "/home1/ngreenberg/DR.Bench/summ_train.json", "test" : "/home1/ngreenberg/DR.Bench/summ_dev.json"})
 print(data)
+print(data["train"][:5])
 
 def clean_text(text):
     # replace newlines with spaces
