@@ -61,6 +61,16 @@ def clean_text(text):
     text = re.sub(' +', ' ', text)
     return text.strip()
 
+#method for clenaing output to ensure that it is semicolon seperated list
+def clean_output(text):
+    # Remove leading and trailing periods
+    text = text.strip('.').strip()
+    # Replace newlines with spaces
+    text = text.replace('\n', ' ')
+    # Replace multiple spaces with a single space
+    text = re.sub(' +', ' ', text)
+    return text.strip()
+    
 def load_json_input(file_path):
     """
     Load and validate the JSON input file.
@@ -79,7 +89,7 @@ def load_json_input(file_path):
         
             obj['instruction'] = clean_text(obj['instruction'])
             obj['input'] = clean_text(obj['input'])
-            obj['output'] = clean_text(obj['output'])
+            obj['output'] = clean_output(obj['output'])
  
         print("Loaded data:", data[0])
         
