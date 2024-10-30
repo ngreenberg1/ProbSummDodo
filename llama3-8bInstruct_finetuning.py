@@ -48,9 +48,10 @@ print(tokenizer.eos_token, tokenizer.eos_token_id)
 print(tokenizer.pad_token, tokenizer.pad_token_id)
 tokenizer.convert_tokens_to_ids(PAD_TOKEN)
 
-data = load_dataset("json", data_files={"train" : "/home1/ngreenberg/DR.Bench/summ_train.json", "test" : "/home1/ngreenberg/DR.Bench/summ_dev.json"})
-print(data)
-print(data["train"][:5])
+
+"""
+Dataset
+"""
 
 def clean_text(text):
     # replace newlines with spaces
@@ -86,6 +87,20 @@ def load_json_input(file_path):
         raise ValueError("Invalid JSON format.")
     except FileNotFoundError:
         raise ValueError(f"File not found: {file_path}")
+    
+##Load cleaned dataset 
+train_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_train.json")
+test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
+
+"""
+Create custom dataset in chat format
+"""
+
+data = load_dataset(train_data, test_data)
+print(data)
+print(data["train"][:5])
+
+
     
 #data = load_json_input(args.input)
 
