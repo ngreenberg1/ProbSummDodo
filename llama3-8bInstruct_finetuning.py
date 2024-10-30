@@ -2,6 +2,7 @@
 import json
 import re
 import torch
+import pandas as pd
 from datasets import Dataset, load_dataset
 from peft import (
     LoraConfig,
@@ -95,9 +96,18 @@ test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
 """
 Create custom dataset in chat format
 """
-dataset = load_dataset(train_data)
-print(dataset)
-print(dataset["train"][:5])
+rows = []
+for item in train_data:
+    rows.append(
+        {
+            "instruction": item["instruction"],
+            "input": item["input"],
+            "output": item["output"],
+        }
+    )
+df = pd.DataFrame(rows)
+
+df.head()
 
 
 
