@@ -107,7 +107,8 @@ for item in train_data:
     )
 df = pd.DataFrame(rows)
 
-df.head()
+#debugging
+print(df.head())
 
 
 
