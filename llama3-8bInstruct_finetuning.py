@@ -166,8 +166,8 @@ print(train_df.text.iloc[0])
 print(test_df.text.iloc[0])
 
 #check for inputs greater than 512 tokens 
-print(len(train_df(train_df.token_count < 512)), len(train_df), len(train_df[train_df.token_count < 512]) / len(train_df))
-print(len(test_df(test_df.token_count < 512)), len(test_df), len(test_df[test_df.token_count < 512]) / len(test_df))
+print(len(train_df[train_df.token_count < 512]), len(train_df), len(train_df[train_df.token_count < 512]) / len(train_df))
+print(len(test_df[test_df.token_count < 512]), len(test_df), len(test_df[test_df.token_count < 512]) / len(test_df))
 
 """
 for entry in data:
