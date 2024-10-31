@@ -212,6 +212,6 @@ def create_test_prompt(data_row):
         messages, tokenizer=False, add_generation_prompt=True
     )
 
-row = dataset["test"][0]
+row = dataset["validation"][0]
 prompt = create_test_prompt(row)
 print(prompt)
