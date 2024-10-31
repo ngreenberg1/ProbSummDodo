@@ -142,8 +142,8 @@ def format_example(row: dict):
     ]
     return tokenizer.apply_chat_template(messages, tokenize=False)
 
-train_df["text"] = df.apply(format_example, axis=1)
-test_df["text"] = df.apply(format_example, axis=1)
+train_df["text"] = train_df.apply(format_example, axis=1)
+test_df["text"] = test_df.apply(format_example, axis=1)
 
 def count_tokens(row: Dict) -> int:
     return len(
@@ -154,8 +154,8 @@ def count_tokens(row: Dict) -> int:
         )["input_ids"]
     )
 
-train_df["token_count"] =df.apply(count_tokens, axis=1)
-test_df["token_count"] =df.apply(count_tokens, axis=1)
+train_df["token_count"] = train_df.apply(count_tokens, axis=1)
+test_df["token_count"] = test_df.apply(count_tokens, axis=1)
 print(train_df.head())
 print(test_df.head())
 
