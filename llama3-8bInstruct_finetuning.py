@@ -5,6 +5,7 @@ import torch
 import pandas as pd
 import numpy as np
 from datasets import Dataset, load_dataset
+from torch.utils.data import DataLoader
 from peft import (
     LoraConfig,
     PeftModel,
@@ -228,3 +229,18 @@ print(response)
 end_time = time.time()
 execution_time = end_time - start_time
 print("Execution time: {:.2f} seconds".format(execution_time))
+
+"""
+Train on completions only 
+"""
+response_template = "<|end_header_id|>"
+collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
+
+examples = [dataset["train"][0]["text"]]
+encodings = [tokenizer(e) for e in examples]
+
+dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
+
+batch = next(iter(dataloader))
+print(batch.keys())
+print(batch["labels"])
