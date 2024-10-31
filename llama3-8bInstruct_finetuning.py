@@ -244,3 +244,9 @@ dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
 batch = next(iter(dataloader))
 print(batch.keys())
 print(batch["labels"])
+
+"""
+LoRA Setup
+"""
+
+print(model)
