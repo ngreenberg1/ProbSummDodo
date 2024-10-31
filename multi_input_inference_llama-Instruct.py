@@ -166,7 +166,7 @@ def main():
         all_assistant_responses.append(assistant_response)
         all_references.append(entry['output'])
         #debugging
-        print(all_assistant_responses)
+        print(assistant_response)
 
     evaluate(all_assistant_responses, all_references)
 
