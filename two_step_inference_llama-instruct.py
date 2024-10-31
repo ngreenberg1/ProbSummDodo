@@ -76,14 +76,14 @@ def main():
     #recommended default temperature varies from model to model-- may need adjusting
     #parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
-    
+    parser.add_argument('--model', '-m', help="model directory")
 
     args = parser.parse_args()
 
     data = load_json_input(args.input)
 
 
-    model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
+    model_id =args.model
 
 
     """
@@ -154,7 +154,7 @@ def main():
             {"role": "system", "content": system},
             {"role": "user", "content": user},
             {"role": "assistant", "content": initial_output},
-            {"role": "user", "content": "Think about the problem more, can you refine this list to the most important problems/diagnoses?"}
+            {"role": "user", "content": "Take time to think about the patient note, as well as the system prompt. Make sure that you are not missing any important problems.  Can you refine the list of problems/diagnoses?"}
         ]
 
         final_outputs = pipe(
