@@ -93,7 +93,7 @@ def main():
     need to figure out how to get all of these (initial output, final output, gold truth) in one place in order
     to compare.  
     """
-    
+    #TODO use dataloader instead of pipeline sequentially
 
     #TODO move all of this outside of main to seperate functions like initialize model
     pipe = pipeline(
