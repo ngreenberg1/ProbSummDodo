@@ -164,6 +164,11 @@ print(test_df.head())
 #debugging
 print(train_df.text.iloc[0])
 print(test_df.text.iloc[0])
+
+#check for inputs greater than 512 tokens 
+len(train_df(train_df.token_count < 512)), len(train_df), len(train_df[train_df.token_count < 512])
+len(test_df(test_df.token_count < 512)), len(test_df), len(test_df[test_df.token_count < 512])
+
 """
 for entry in data:
         
