@@ -180,6 +180,7 @@ dataset = load_dataset(
 )
 
 print(dataset)
+print(dataset["train"][0]["text"])
 
 """
 for entry in data:
