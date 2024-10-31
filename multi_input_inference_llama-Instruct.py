@@ -102,9 +102,11 @@ def main():
 
     data = load_json_input(args.input)
 
+    #If using base model
+    #model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
 
-    model_id = "/home1/shared/Models/Llama/Meta-Llama-3-8B-Instruct/"
-
+    #If using finetuned model
+    model_id = "/home1/ngreenberg/ProbSummDodo/finetuned-Dodo/"
 
     """
     Inference steps: add initial outputs to file.  then re-prompt.  then add final output.  then evaluate
@@ -173,10 +175,6 @@ def main():
     #TODO
     #add print to print the inference hyperparameters along with results
     #possibly add model details as well
-
-    #TODO scale up evaluation to evaluate entire output file.
-    #wrap the arguments in lists so that they are not interpreted as single strings and compared by character 
-    #evaluate([first_entry['output']], [assistant_response])
     
 
 
