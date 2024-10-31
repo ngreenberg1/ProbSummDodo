@@ -98,13 +98,14 @@ def main():
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
     #TODO
     #add arg for model directory
+    parser.add_argument('--model', '-m', help="model directory", required=True)
 
     args = parser.parse_args()
 
     data = load_json_input(args.input)
 
     #If using base model
-    model_id = "/home1/ngreenberg/ProbSummDodo/Llama-3-8B-Instruct-ProbSumm/"
+    model_id = args.model
 
     """
     Inference steps: add initial outputs to file.  then re-prompt.  then add final output.  then evaluate
