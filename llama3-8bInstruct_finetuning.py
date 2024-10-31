@@ -209,7 +209,7 @@ def create_test_prompt(data_row):
         {"role": "user", "content": prompt},
     ]
     return tokenizer.apply_chat_template(
-        messages, tokenizer=False, add_generation_prompt=True
+        messages, tokenize=False, add_generation_prompt=True
     )
 
 row = dataset["validation"][0]
