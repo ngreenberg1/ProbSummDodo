@@ -171,8 +171,8 @@ print(len(test_df[test_df.token_count < 512]), len(test_df), len(test_df[test_df
 
 
 #save dataframes to json
-train_df.to_json("train_data.json", orients="records", lines=True)
-test_df.to_json("test_data.json", orients="records", lines=True)
+train_df.to_json("train_data.json", orient="records", lines=True)
+test_df.to_json("test_data.json", orient="records", lines=True)
 
 dataset = load_dataset(
     "json",
