@@ -270,3 +270,31 @@ model = prepare_model_for_kbit_training(model)
 model = get_peft_model(model, lora_config)
 
 model.print_trainable_parameters()
+
+OUTPUT_DIR="/home1/ngreenberg/ProbSummDodo/finetuning_experiment"
+
+sft_config = SFTConfig(
+    output_dir=OUTPUT_DIR,
+    dataset_text_field="text",
+    max_seq_length=512,
+    num_train_epochs=2,
+    per_device_train_batch_size=2,
+    per_device_eval_batch_size=2,
+    gradient_accumulation_steps=4,
+    optim="paged_adamw_8bit",
+    eval_strategy="steps",
+    eval_steps=0.2,
+    save_steps=0.2,
+    logging_steps=10,
+    learning_rate=1e-4,
+    fp16=True,
+    save_strategy="steps",
+    warmup_ratio=0.1,
+    save_total_limit=2,
+    lr_scheduler_type="constant",
+    save_safetensors=True,
+    dataset_kwargs={
+        "add_special_tokens": False,
+        "append_concat_token": False,
+    },    
+)
