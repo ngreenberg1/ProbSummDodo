@@ -301,7 +301,7 @@ sft_config = SFTConfig(
 
 trainer = SFTTrainer(
     model=model,
-    arf=sft_config,
+    args=sft_config,
     train_dataset=dataset["train"],
     eval_dataset=dataset["validation"],
     tokenizer=tokenizer,
