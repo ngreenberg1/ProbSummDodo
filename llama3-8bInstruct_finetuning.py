@@ -1,4 +1,4 @@
-
+import time
 import json
 import re
 import torch
@@ -215,3 +215,16 @@ def create_test_prompt(data_row):
 row = dataset["validation"][0]
 prompt = create_test_prompt(row)
 print(prompt)
+
+
+##Testing inference##
+start_time = time.time()
+outputs = pipe(prompt)
+response = f"""
+answer: {row["output"]}
+prediction: {outputs[0]["generated_text"]}
+"""
+print(response)
+end_time = time.time()
+execution_time = end_time - start_time
+print("Execution time: {:.2f} seconds".format(execution_time))
