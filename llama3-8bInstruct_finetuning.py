@@ -183,20 +183,35 @@ print(dataset)
 print(dataset["train"][0]["text"])
 
 """
-for entry in data:
-        
-#TODO modularize the code by seperating the logic into distinct functions.
-#seperate functions for generating initial responses, generating final responses, and evaluating results.
-    system = entry['instruction']
-    user = entry['input']
-
-    messages = [
-        {"role": "system", "content": system},
-        {"role": "user", "content": user},
-    ]
-
-    tokenized_chat = tokenizer.apply_chat_template(messages, tokenize=True,add_generation_prompt=False,return_tensors="pt")
-    print(tokenizer.decode(tokenized_chat[0]))
-    #debugging
-    #print(messages)
+Test Original Model
 """
+
+pipe = pipeline(
+    task="text-generation",
+    model=model,
+    tokenizer=tokenizer,
+    max_new_tokens=128,
+    return_full_text=False,
+)
+
+def create_test_prompt(data_row):
+    prompt = (
+        f"""
+    {
+        data_row["input"]}
+    """
+    )
+    messages = [
+        {
+            "role": "system", 
+            "content": "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise.",
+        },
+        {"role": "user", "content": prompt},
+    ]
+    return tokenizer.apply_chat_template(
+        messages, tokenizer=False, add_generation_prompt=True
+    )
+
+row = dataset["test"][0]
+prompt = create_test_prompt(row)
+print(prompt)
