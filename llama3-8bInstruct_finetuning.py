@@ -309,3 +309,21 @@ trainer = SFTTrainer(
 )
 
 trainer.train()
+
+trainer.save_model(NEW_MODEL)
+"""
+Load Trained Model
+"""
+tokenizer = AutoTokenizer.from_pretrained(NEW_MODEL)
+
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME,
+    torch_dtype=torch.float16,
+    device_map="auto",
+)
+
+model.resize_token_embeddings(len(tokenizer), pad_to_multiple_of=8)
+model = PeftModel.from_pretrained(model, NEW_MODEL)
+model = model.merge_and_unload()
+
+model.save_pretrained("/home1/ngreenberg/ProbSummDodo/finetuned-Dodo", tokenizer=tokenizer, max_shard_size="5GB")
