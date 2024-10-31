@@ -298,3 +298,12 @@ sft_config = SFTConfig(
         "append_concat_token": False,
     },    
 )
+
+trainer = SFTTrainer(
+    model=model,
+    arf=sft_config,
+    train_dataset=dataset["train"],
+    eval_dataset=dataset["validation"],
+    tokenizer=tokenizer,
+    data_collator=collator,
+)
