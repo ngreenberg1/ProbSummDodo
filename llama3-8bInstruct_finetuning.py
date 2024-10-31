@@ -3,6 +3,7 @@ import json
 import re
 import torch
 import pandas as pd
+import numpy as np
 from datasets import Dataset, load_dataset
 from peft import (
     LoraConfig,
@@ -123,6 +124,26 @@ print(test_df.head())
 #check for null values 
 print(train_df.isnull().value_counts())
 print(test_df.isnull().value_counts())
+
+##NEXT UP
+##format example 
+def format_example(row: dict):
+    prompt = (
+        f"""
+    {row["input"]}
+    """
+    )
+    messages = [
+        {
+            "role": "system", "content": "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise.",
+        },
+        {"role": "user", "content": prompt},
+        {"role": "assistant", "content": row["output"]}
+    ]
+    return tokenizer.apply_chat_template(messages, tokenize=False)
+
+train_df["text"] = df.apply(format_example, axis=1)
+test_df["text"] = df.apply(format_example, axis=1)
 
 """
 for entry in data:
