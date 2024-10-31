@@ -94,7 +94,8 @@ def load_json_input(file_path):
     
 ##Load cleaned dataset 
 train_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_train.json")
-test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
+validation_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_dev.json")
+test_data = load_json_input("/home1/ngreenberg/DR.Bench/summ_test.json")
 
 #debugging
 print(train_data[:5])
@@ -118,12 +119,15 @@ def create_dataframe(data):
 #debugging
     
 train_df = create_dataframe(train_data)
+validation_df = create_dataframe(validation_data)
 test_df = create_dataframe(test_data)
 print(train_df.head())
+print(validation_df.head())
 print(test_df.head())
 
 #check for null values 
 print(train_df.isnull().value_counts())
+print(validation_df.isnull().value_counts())
 print(test_df.isnull().value_counts())
 
 ##NEXT UP
@@ -144,6 +148,7 @@ def format_example(row: dict):
     return tokenizer.apply_chat_template(messages, tokenize=False)
 
 train_df["text"] = train_df.apply(format_example, axis=1)
+validation_df["text"] = validation_df.apply(format_example, axis=1)
 test_df["text"] = test_df.apply(format_example, axis=1)
 
 def count_tokens(row: dict) -> int:
@@ -156,28 +161,34 @@ def count_tokens(row: dict) -> int:
     )
 
 train_df["token_count"] = train_df.apply(count_tokens, axis=1)
+validation_df["token_count"] = validation_df.apply(count_tokens, axis=1)
 test_df["token_count"] = test_df.apply(count_tokens, axis=1)
 #debugging
 print(train_df.head())
+print(validation_df.head())
 print(test_df.head())
 
 
 #debugging
 print(train_df.text.iloc[0])
+print(validation_df.text.iloc[0])
 print(test_df.text.iloc[0])
+
 
 #check for inputs greater than 512 tokens 
 print(len(train_df[train_df.token_count < 512]), len(train_df), len(train_df[train_df.token_count < 512]) / len(train_df))
+print(len(validation_df[validation_df.token_count < 512]), len(validation_df), len(validation_df[validation_df.token_count < 512]) / len(validation_df))
 print(len(test_df[test_df.token_count < 512]), len(test_df), len(test_df[test_df.token_count < 512]) / len(test_df))
 
 
 #save dataframes to json
 train_df.to_json("train_data.json", orient="records", lines=True)
+validation_df.to_json("validation_data.json", orient="records", lines=True)
 test_df.to_json("test_data.json", orient="records", lines=True)
 
 dataset = load_dataset(
     "json",
-    data_files={"train": "train_data.json", "validation": "test_data.json"},
+    data_files={"train": "train_data.json", "validation": "validation_data.json", "test": "test_data.json"},
 )
 
 print(dataset)
@@ -229,6 +240,7 @@ print(response)
 end_time = time.time()
 execution_time = end_time - start_time
 print("Execution time: {:.2f} seconds".format(execution_time))
+
 
 """
 Train on completions only 
@@ -327,3 +339,26 @@ model = PeftModel.from_pretrained(model, NEW_MODEL)
 model = model.merge_and_unload()
 
 model.save_pretrained("/home1/ngreenberg/ProbSummDodo/finetuned-Dodo", tokenizer=tokenizer, max_shard_size="5GB")
+
+
+"""
+Testing Inference
+"""
+
+dataset = load_dataset(
+    "json",
+    data_files={"train": "train_data.json", "validation": "validation_data.json", "test": "test_data.json"},
+)
+
+MODEL_NAME = "/home1/ngreenberg/ProbSummDodo/finetuned-Dodo/"
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16
+)
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
+
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME, quantization_config=quantization_config, device_map="auto"
+)
+
+
