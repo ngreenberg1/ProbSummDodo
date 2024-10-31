@@ -307,3 +307,5 @@ trainer = SFTTrainer(
     tokenizer=tokenizer,
     data_collator=collator,
 )
+
+trainer.train()
