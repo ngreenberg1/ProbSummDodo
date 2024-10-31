@@ -145,7 +145,7 @@ def format_example(row: dict):
 train_df["text"] = train_df.apply(format_example, axis=1)
 test_df["text"] = test_df.apply(format_example, axis=1)
 
-def count_tokens(row: Dict) -> int:
+def count_tokens(row: dict) -> int:
     return len(
         tokenizer(
             row["text"],
