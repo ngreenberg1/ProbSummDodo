@@ -248,5 +248,25 @@ print(batch["labels"])
 """
 LoRA Setup
 """
-
 print(model)
+
+lora_config = LoraConfig(
+    r=32,
+    lora_alpha=16,
+    target_modules=[
+        "self_attn.q_proj",
+        "self_attn.k_proj",
+        "self_attn.v_proj",
+        "self_attn.o_proj",
+        "mlp.gate_proj",
+        "mlp.up_proj",
+        "mlp.down_proj",
+    ],
+    lora_dropout=0.05,
+    bias="none",
+    task_type=TaskType.CAUSAL_LM,
+)
+model = prepare_model_for_kbit_training(model)
+model = get_peft_model(model, lora_config)
+
+model.print_trainable_parameters()
