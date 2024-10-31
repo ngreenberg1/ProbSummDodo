@@ -169,6 +169,16 @@ print(test_df.text.iloc[0])
 print(len(train_df[train_df.token_count < 512]), len(train_df), len(train_df[train_df.token_count < 512]) / len(train_df))
 print(len(test_df[test_df.token_count < 512]), len(test_df), len(test_df[test_df.token_count < 512]) / len(test_df))
 
+
+#save dataframes to json
+train_df.to_json("train_data.json", orients="records", lines=True)
+test_df.to_json("test_data.json", orients="records", lines=True)
+
+dataset = load_dataset(
+    "json",
+    data_files=("train": "train_data.json", "validation": "test_data.json"),
+)
+
 """
 for entry in data:
         
