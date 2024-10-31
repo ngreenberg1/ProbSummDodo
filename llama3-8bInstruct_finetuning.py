@@ -156,9 +156,14 @@ def count_tokens(row: dict) -> int:
 
 train_df["token_count"] = train_df.apply(count_tokens, axis=1)
 test_df["token_count"] = test_df.apply(count_tokens, axis=1)
+#debugging
 print(train_df.head())
 print(test_df.head())
 
+
+#debugging
+print(train_df.text.iloc[0])
+print(test_df.text.iloc[0])
 """
 for entry in data:
         
