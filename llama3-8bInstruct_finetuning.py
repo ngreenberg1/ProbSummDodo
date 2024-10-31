@@ -176,8 +176,10 @@ test_df.to_json("test_data.json", orients="records", lines=True)
 
 dataset = load_dataset(
     "json",
-    data_files=("train": "train_data.json", "validation": "test_data.json"),
+    data_files={"train": "train_data.json", "validation": "test_data.json"},
 )
+
+print(dataset)
 
 """
 for entry in data:
