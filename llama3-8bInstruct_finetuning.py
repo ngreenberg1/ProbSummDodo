@@ -145,6 +145,20 @@ def format_example(row: dict):
 train_df["text"] = df.apply(format_example, axis=1)
 test_df["text"] = df.apply(format_example, axis=1)
 
+def count_tokens(row: Dict) -> int:
+    return len(
+        tokenizer(
+            row["text"],
+            add_special_tokens=True,
+            return_attention_mask=False,
+        )["input_ids"]
+    )
+
+train_df["token_count"] =df.apply(count_tokens, axis=1)
+test_df["token_count"] =df.apply(count_tokens, axis=1)
+print(train_df.head())
+print(test_df.head())
+
 """
 for entry in data:
         
