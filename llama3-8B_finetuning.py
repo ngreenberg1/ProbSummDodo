@@ -145,7 +145,7 @@ def format_example(row: dict):
         {"role": "user", "content": prompt},
         {"role": "assistant", "content": row["output"]}
     ]
-    return tokenizer.apply_chat_template(messages, tokenize=False)
+    return tokenizer(messages)
 
 train_df["text"] = train_df.apply(format_example, axis=1)
 validation_df["text"] = validation_df.apply(format_example, axis=1)
