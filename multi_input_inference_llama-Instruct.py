@@ -6,6 +6,7 @@ import re
 import evaluate
 from evaluate import load 
 from tqdm import tqdm
+from rouge_score import rouge_scorer
 
 
 """
@@ -59,6 +60,14 @@ def evaluate(candidates, references):
     import evaluate
     rouge = evaluate.load('rouge')
  
+    scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=False)
+    # Initialize accumulators for scores
+    total_scores = {
+        'rouge1': {'precision': 0, 'recall': 0, 'fmeasure': 0},
+        'rouge2': {'precision': 0, 'recall': 0, 'fmeasure': 0},
+        'rougeL': {'precision': 0, 'recall': 0, 'fmeasure': 0}
+    }
+    count = len(candidates)
     #debugging
     #print(candidates)
     #print(references)
@@ -82,6 +91,32 @@ def evaluate(candidates, references):
     #print("First few references:", references[:3])
 
     results = rouge.compute(predictions=candidates, references=references)
+    
+    # Iterate over each candidate and reference pair to get rouge score using python rouge_scorer
+    for candidate, reference in zip(candidates, references):
+        # Compute the scores for the current pair
+        scores = scorer.score(reference, candidate)
+        
+        # Accumulate the scores
+        for key in total_scores:
+            total_scores[key]['precision'] += scores[key].precision
+            total_scores[key]['recall'] += scores[key].recall
+            total_scores[key]['fmeasure'] += scores[key].fmeasure
+    
+    # Calculate average scores
+    average_scores = {
+        key: {
+            'precision': total['precision'] / count,
+            'recall': total['recall'] / count,
+            'fmeasure': total['fmeasure'] / count
+        }
+        for key, total in total_scores.items()
+    }
+    
+    # Print the average scores
+    print("Average ROUGE scores:")
+    for key, score in average_scores.items():
+        print(f"{key}: Precision: {score['precision']:.4f}, Recall: {score['recall']:.4f}, F1: {score['fmeasure']:.4f}")
     print(results)
 
 
@@ -170,6 +205,7 @@ def main():
         print(assistant_response)
 
     evaluate(all_assistant_responses, all_references)
+    
 
     #TODO
     #add print to print the inference hyperparameters along with results
