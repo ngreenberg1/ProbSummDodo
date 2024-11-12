@@ -117,6 +117,7 @@ def evaluate(candidates, references):
     print("Average ROUGE scores:")
     for key, score in average_scores.items():
         print(f"{key}: Precision: {score['precision']:.4f}, Recall: {score['recall']:.4f}, F1: {score['fmeasure']:.4f}")
+    
     print(results)
 
 
@@ -171,7 +172,7 @@ def main():
         
     
         #system = entry['instruction']
-        system = "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else."
+        system = "Given the following clinical note, list possible diagnoses that could account for the patient's symptons and conditions.  Aim to cover all relevant possibilities."
         user = entry['input']
 
         messages = [
