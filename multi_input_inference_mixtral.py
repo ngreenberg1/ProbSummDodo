@@ -7,6 +7,7 @@ from evaluate import load
 import argparse
 from tqdm import tqdm
 import torch
+from rouge_score import rouge_scorer
 
 
 def clean_text(text):

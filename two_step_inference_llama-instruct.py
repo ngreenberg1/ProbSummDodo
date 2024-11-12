@@ -6,7 +6,7 @@ import re
 import evaluate
 from evaluate import load 
 from tqdm import tqdm
-
+from rouge_score import rouge_scorer
 
 """
 Function to clean text by removing excessive spaces and newlines
@@ -58,8 +58,65 @@ function for evaluating outputs against ground truth
 def evaluate(candidates, references):
     import evaluate
     rouge = evaluate.load('rouge')
+ 
+    scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=False)
+    # Initialize accumulators for scores
+    total_scores = {
+        'rouge1': {'precision': 0, 'recall': 0, 'fmeasure': 0},
+        'rouge2': {'precision': 0, 'recall': 0, 'fmeasure': 0},
+        'rougeL': {'precision': 0, 'recall': 0, 'fmeasure': 0}
+    }
+    count = len(candidates)
+    #debugging
+    #print(candidates)
+    #print(references)
+
+    #debugging
+    # Check the type of the lists
+    #print(f"Type of candidates: {type(candidates)}")
+    #print(f"Type of references: {type(references)}")
+
+    # Check the length of the lists
+    #print(f"Number of candidates: {len(candidates)}")
+    #print(f"Number of references: {len(references)}")
+
+    # Check the type of each element in the lists
+    #if candidates and references:  # Ensure lists are not empty
+        #print(f"Type of first candidate: {type(candidates[0])}")
+        #print(f"Type of first reference: {type(references[0])}")
+
+    # Optionally, print the first few elements to inspect their content
+    #print("First few candidates:", candidates[:3])
+    #print("First few references:", references[:3])
 
     results = rouge.compute(predictions=candidates, references=references)
+    
+    # Iterate over each candidate and reference pair to get rouge score using python rouge_scorer
+    for candidate, reference in zip(candidates, references):
+        # Compute the scores for the current pair
+        scores = scorer.score(reference, candidate)
+        
+        # Accumulate the scores
+        for key in total_scores:
+            total_scores[key]['precision'] += scores[key].precision
+            total_scores[key]['recall'] += scores[key].recall
+            total_scores[key]['fmeasure'] += scores[key].fmeasure
+    
+    # Calculate average scores
+    average_scores = {
+        key: {
+            'precision': total['precision'] / count,
+            'recall': total['recall'] / count,
+            'fmeasure': total['fmeasure'] / count
+        }
+        for key, total in total_scores.items()
+    }
+    
+    # Print the average scores
+    print("Average ROUGE scores:")
+    for key, score in average_scores.items():
+        print(f"{key}: Precision: {score['precision']:.4f}, Recall: {score['recall']:.4f}, F1: {score['fmeasure']:.4f}")
+    
     print(results)
 
 
