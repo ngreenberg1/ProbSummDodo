@@ -198,7 +198,7 @@ def main():
         # In the future, make hyperparameters = input args  e.g. temperature=(args.temperature)
         initial_output = pipe(
             messages,
-            max_new_tokens=256,
+            max_new_tokens=512,
             eos_token_id=terminators,
             do_sample=True,
             temperature=args.temperature,
@@ -216,7 +216,7 @@ def main():
 
         final_outputs = pipe(
             messages,
-            max_new_tokens=256,
+            max_new_tokens=512,
             eos_token_id=terminators,
             do_sample=True,
             temperature=args.temperature,
