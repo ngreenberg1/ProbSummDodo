@@ -133,7 +133,7 @@ def main():
     #recommended default temperature varies from model to model-- may need adjusting
     #parser.add_argument('--topk', type=int, default=50, help="Top-k sampling")
     parser.add_argument('--topp', type=float, default=0.95, help="Top-p (nucleus) sampling")
-    parser.add_argument('--model', '-m', help="model directory")
+    parser.add_argument('--model', '-m', help="model directory", required=True)
 
     args = parser.parse_args()
 
