@@ -124,7 +124,7 @@ def main():
         
     #TODO modularize the code by seperating the logic into distinct functions.
     #seperate functions for generating initial responses, generating final responses, and evaluating results.
-        system = entry['instruction']
+        system = "Given the following clinical note, list possible diagnoses that could account for the patient's symptons and conditions.  Aim to cover all relevant possibilities."
         user = entry['input']
 
         messages = [
@@ -154,7 +154,7 @@ def main():
             {"role": "system", "content": system},
             {"role": "user", "content": user},
             {"role": "assistant", "content": initial_output},
-            {"role": "user", "content": "Take time to think about the patient note, as well as the system prompt. Make sure that you are not missing any important problems.  Can you refine the list of problems/diagnoses?"}
+            {"role": "user", "content": "Rank the diagnoses in order of likelihood based on the symptoms and medical findings.  Explain why the top choices are prioritized over the others."}
         ]
 
         final_outputs = pipe(
