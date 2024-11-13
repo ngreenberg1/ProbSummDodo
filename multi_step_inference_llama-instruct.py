@@ -165,7 +165,7 @@ def main():
         pipe.tokenizer.convert_tokens_to_ids("<|eot_id|>")
     ]
     
-    #TODO add time to this function so that I can see progress on dataset
+    #TODO
     #move parts of this outside of the loop if possible 
     #Maybe this should be combined with load function so that the json file only needs to be
     #looped through once
@@ -193,9 +193,6 @@ def main():
         #print(messages)
 
     
-       
-
-        # In the future, make hyperparameters = input args  e.g. temperature=(args.temperature)
         initial_output = pipe(
             messages,
             max_new_tokens=512,
@@ -214,7 +211,7 @@ def main():
             {"role": "user", "content": "Rank the diagnoses in order of likelihood based on the symptoms and medical findings.  Explain why the top choices are prioritized over the others."}
         ]
 
-        final_outputs = pipe(
+        second_output = pipe(
             messages,
             max_new_tokens=512,
             eos_token_id=terminators,
@@ -224,7 +221,27 @@ def main():
         )
 
 
-        assistant_response = final_outputs[0]["generated_text"][-1]["content"]
+        second_output = second_output[0]["generated_text"][-1]["content"]
+
+        messages = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+            {"role": "assistant", "content": initial_output},
+            {"role": "user", "content": "Rank the diagnoses in order of likelihood based on the symptoms and medical findings.  Explain why the top choices are prioritized over the others."},
+            {"role": "assistant", "content": second_output},
+            {"role": "user", "content": "Reflect on the initial list in light of the clinical not and focus on the primary symptoms.  Are there any conditions that may have been overlooked or misprioritized? Refine the list as needed."}
+        ]
+
+        third_output = pipe(
+            messages,
+            max_new_tokens=512,
+            eos_token_id=terminators,
+            do_sample=True,
+            temperature=args.temperature,
+            top_p=args.topp,
+        )
+
+        assistant_response = third_output[0]["generated_text"][-1]["content"]
 
         #debugging
         if entry_counter == 0:
