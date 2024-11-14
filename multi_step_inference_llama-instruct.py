@@ -278,7 +278,7 @@ def main():
             {"role": "user", "content": "Please provide the final list of the most important diagnoses, based on the patient note, as a semicolon-separated list. Ensure that only the most relevant and probable diagnoses are included."}
         ]
 
-        fourth_output = pipe(
+        final_output = pipe(
             messages,
             max_new_tokens=512,
             eos_token_id=terminators,
@@ -287,7 +287,7 @@ def main():
             top_p=args.topp,
         )
 
-        assistant_response = fourth_output[0]["generated_text"][-1]["content"]
+        assistant_response = final_output[0]["generated_text"][-1]["content"]
 
         #debugging
         if entry_counter == 0:
