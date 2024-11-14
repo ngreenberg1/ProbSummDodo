@@ -241,7 +241,29 @@ def main():
             top_p=args.topp,
         )
 
-        assistant_response = third_output[0]["generated_text"][-1]["content"]
+        third_output = third_output[0]["generated_text"][-1]["content"]
+
+        messages = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+            {"role": "assistant", "content": initial_output},
+            {"role": "user", "content": "Rank the diagnoses in order of likelihood based on the symptoms and medical findings.  Explain why the top choices are prioritized over the others."},
+            {"role": "assistant", "content": second_output},
+            {"role": "user", "content": "Reflect on the initial list in light of the clinical not and focus on the primary symptoms.  Are there any conditions that may have been overlooked or misprioritized? Refine the list as needed."},
+            {"role": "assistant", "content": third_output},
+            {"role": "user", "content": "Before finalizing, review the diagnoses and ensure that they account for all symptoms noted. Remove any unlikely options and finalize the most probable diagnoses."}
+        ]
+
+        fourth_output = pipe(
+            messages,
+            max_new_tokens=512,
+            eos_token_id=terminators,
+            do_sample=True,
+            temperature=args.temperature,
+            top_p=args.topp,
+        )
+
+        assistant_response = fourth_output[0]["generated_text"][-1]["content"]
 
         #debugging
         if entry_counter == 0:
