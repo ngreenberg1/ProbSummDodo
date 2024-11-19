@@ -181,7 +181,7 @@ def main():
         
     #TODO modularize the code by seperating the logic into distinct functions.
     #seperate functions for generating initial responses, generating final responses, and evaluating results.
-        system = "Given the following clinical note, list possible diagnoses that could account for the patient's symptons and conditions.  Aim to cover all relevant possibilities."
+        system = "Given the following clinical note, list important problems/diagnoses."
         user = entry['input']
 
         messages = [
@@ -203,12 +203,12 @@ def main():
         )
 
         initial_output = initial_output[0]["generated_text"][-1]["content"]
-
+        """
         messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
             {"role": "assistant", "content": initial_output},
-            {"role": "user", "content": "Rank the diagnoses in order of likelihood based on the symptoms and medical findings.  Explain why the top choices are prioritized over the others."}
+            {"role": "user", "content": ""}
         ]
 
         second_output = pipe(
@@ -296,8 +296,8 @@ def main():
             print(assistant_response)
 
         entry_counter += 1
-
-        all_assistant_responses.append(assistant_response)
+        """
+        all_assistant_responses.append(initial_output)
         all_references.append(entry['output'])
 
     evaluate(all_assistant_responses, all_references)
