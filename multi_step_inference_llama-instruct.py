@@ -206,12 +206,12 @@ def main():
         #debugging
         print(initial_output)
 
-        """
+        
         messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
             {"role": "assistant", "content": initial_output},
-            {"role": "user", "content": ""}
+            {"role": "user", "content": "Think about the note again, and reconsider your initial output.  Is there anything you might have missed, or mistakenly included? Please output a revised, semicolon seperated list of the most important problems/diagnoses. Only list the problems/diagnoses and nothing else. Be concise."}
         ]
 
         second_output = pipe(
@@ -225,7 +225,7 @@ def main():
 
 
         second_output = second_output[0]["generated_text"][-1]["content"]
-
+        """
         messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
@@ -300,7 +300,7 @@ def main():
 
         entry_counter += 1
         """
-        all_assistant_responses.append(initial_output)
+        all_assistant_responses.append(second_output)
         all_references.append(entry['output'])
 
     evaluate(all_assistant_responses, all_references)
