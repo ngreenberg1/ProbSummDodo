@@ -181,7 +181,7 @@ def main():
         
     #TODO modularize the code by seperating the logic into distinct functions.
     #seperate functions for generating initial responses, generating final responses, and evaluating results.
-        system = "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise."
+        system = "You are a physician. Given the following clinical note, list important problems/diagnoses that could account for the patient's symptons and conditions.  Aim to cover all relevant possibilities."
         user = entry['input']
 
         messages = [
