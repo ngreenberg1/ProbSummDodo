@@ -5,7 +5,7 @@ model = AutoModelForCausalLM.from_pretrained("/home1/shared/Models/Mixtral/Mixtr
 tokenizer = AutoTokenizer.from_pretrained("/home1/shared/Models/Mixtral/Mixtral-8x7B-Instruct-v0.1")
 
 messages = [
-    {"role": "user", "content": "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise. H/O HYPERKALEMIA (HIGH POTASSIUM, HYPERPOTASSEMIA). H/O HYPERGLYCEMIA CHRONIC OBSTRUCTIVE PULMONARY DISEASE (COPD, BRONCHITIS, EMPHYSEMA) WITH ACUTE EXACERBATION. A 59 year-old man presents with malaise and hypoxia."},
+    {"role": "user", "content": "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise. A\/P: Pt is a 71 y.o female with h.o COPD (FEV1 .5L\/35%), h.o diastolic dysfunction, GERD who presents with recurrent dyspnea after discharge from OSH for COPD exacerbation yesterday."},
     #{"role": "assistant", "content": "Hyperkalemia; Hyperglycemia; Chronic Obstructive Pulmonary Disease (COPD); Acute exacerbation of COPD; Hypoxia."},
     #{"role": "user", "content": "Think about the problem more, can you refine this list to the most important problems/diagnoses?"}
 ]
