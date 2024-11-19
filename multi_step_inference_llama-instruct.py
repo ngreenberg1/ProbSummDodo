@@ -181,7 +181,7 @@ def main():
         
     #TODO modularize the code by seperating the logic into distinct functions.
     #seperate functions for generating initial responses, generating final responses, and evaluating results.
-        system = "Given the following clinical note, list important problems/diagnoses."
+        system = "You are a physician.  Please list as a semicolon separated list the most important problems/diagnoses based on the progress note text below. Only list the problems/diagnoses and nothing else. Be concise. A\/P: Pt is a 71 y.o female with h.o COPD (FEV1 .5L\/35%), h.o diastolic dysfunction, GERD who presents with recurrent dyspnea after discharge from OSH for COPD exacerbation yesterday."
         user = entry['input']
 
         messages = [
