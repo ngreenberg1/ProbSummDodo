@@ -203,6 +203,9 @@ def main():
         )
 
         initial_output = initial_output[0]["generated_text"][-1]["content"]
+        #debugging
+        print(initial_output)
+
         """
         messages = [
             {"role": "system", "content": system},
