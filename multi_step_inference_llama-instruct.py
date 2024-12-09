@@ -10,7 +10,7 @@ from rouge_score import rouge_scorer
 
 """
 Function to clean text by removing excessive spaces and newlines
-Could be combined in the future with the load json function?
+Needs to be combined in the future with the load json function
 """
 def clean_text(text):
     # replace newlines with spaces
@@ -181,6 +181,7 @@ def main():
         
     #TODO modularize the code by seperating the logic into distinct functions.
     #seperate functions for generating initial responses, generating final responses, and evaluating results.
+    #TODO test and refine prompt flow-- does not produce desired final results. 
         system = "You are a physician. Given the following clinical note, list important problems/diagnoses that could account for the patient's symptons and conditions.  Aim to cover all relevant possibilities."
         user = entry['input']
 
@@ -227,7 +228,9 @@ def main():
         second_output = second_output[0]["generated_text"][-1]["content"]
         #debugging
         print(second_output)
-        """
+        print(entry['output'])
+
+        
         messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
@@ -301,7 +304,7 @@ def main():
             print(assistant_response)
 
         entry_counter += 1
-        """
+        
         all_assistant_responses.append(second_output)
         all_references.append(entry['output'])
 
