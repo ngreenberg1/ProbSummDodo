@@ -31,4 +31,4 @@ Start with: initial prompt, self-reflect and refine.
 
 Not all of the steps relevant to solving coding challenges are relevant to the probsumm 
 task.  BUT, understand how this process helped improve solutions to coding problems, and 
-think about how we can similarly improve outputs of LLMs for diagnosis problem.  
+think about how we can similarly improve outputs of LLMs for diagnosis task.  
